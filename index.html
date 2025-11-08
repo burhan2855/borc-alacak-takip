@@ -654,3 +654,128 @@
             
             const amount = item.amount;
             item.paid = !item.paid;
+	
+	    if (item.paid) {
+                if (item.type === 'debt') {
+                    cashBalance -= amount;
+                } else {
+                    cashBalance += amount;
+                }
+            } else {
+                if (item.type === 'debt') {
+                    cashBalance += amount;
+                } else {
+                    cashBalance -= amount;
+                }
+            }
+            
+            saveData();
+            updateUI();
+        }
+
+        function deleteItem(id) {
+            if (!confirm('Silmek istediğinizden emin misiniz?')) return;
+            
+            items = items.filter(i => i.id !== id);
+            saveData();
+            updateUI();
+            alert('✅ Kayıt silindi!');
+        }
+
+        function updateUI() {
+            const totals = items.reduce((acc, item) => {
+                if (!item.paid) {
+                    if (item.type === 'debt') {
+                        acc.debt += item.amount;
+                    } else {
+                        acc.credit += item.amount;
+                    }
+                }
+                return acc;
+            }, { debt: 0, credit: 0 });
+
+            document.getElementById('kasaValue').textContent = formatCurrency(cashBalance);
+            document.getElementById('borcValue').textContent = formatCurrency(totals.debt);
+            document.getElementById('alacakValue').textContent = formatCurrency(totals.credit);
+            
+            const netValue = cashBalance + totals.credit - totals.debt;
+            document.getElementById('netValue').textContent = formatCurrency(netValue);
+            document.getElementById('netValue').style.color = netValue >= 0 ? '#dcfce7' : '#fecaca';
+            
+            document.getElementById('cashBalance').textContent = formatCurrency(cashBalance) + ' ₺';
+            document.getElementById('cashBalance').style.color = cashBalance >= 0 ? '#15803d' : '#dc2626';
+
+            const list = document.getElementById('itemsList');
+            list.innerHTML = items.map(item => `
+                <div class="item-card ${item.type} ${item.paid ? 'paid' : ''}">
+                    <div class="item-header">
+                        <div>
+                            <div class="item-person" style="color: ${item.paid ? '#64748b' : item.type === 'debt' ? '#dc2626' : '#16a34a'}">
+                                ${item.person}
+                            </div>
+                            ${item.dueDate ? `<div style="font-size: 12px; color: #64748b; margin-top: 4px;">📅 ${new Date(item.dueDate).toLocaleDateString('tr-TR')}</div>` : ''}
+                        </div>
+                        ${!item.paid && getDaysUntilDue(item.dueDate) < 0 ? '<span class="badge badge-overdue">GEÇTİ</span>' : ''}
+                        ${!item.paid && getDaysUntilDue(item.dueDate) >= 0 && getDaysUntilDue(item.dueDate) <= 3 ? '<span class="badge badge-urgent">ACİL</span>' : ''}
+                    </div>
+                    <div class="item-amount" style="color: ${item.paid ? '#64748b' : item.type === 'debt' ? '#dc2626' : '#16a34a'}">
+                        ${item.type === 'debt' ? '-' : '+'}${formatCurrency(item.amount)} ₺
+                    </div>
+                    ${item.description ? `<div style="font-size: 14px; color: #64748b; margin-bottom: 12px;">${item.description}</div>` : ''}
+                    <div class="item-actions">
+                        <button class="btn-small" style="flex: 1; background: ${item.paid ? '#94a3b8' : '#7c3aed'};" onclick="togglePaid(${item.id})">
+                            ${item.paid ? '❌ Ödenmedi' : '✅ Ödendi'}
+                        </button>
+                        <button class="btn-small" style="background: #dc2626;" onclick="deleteItem(${item.id})">🗑️</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function getDaysUntilDue(dueDate) {
+            if (!dueDate) return 999;
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const due = new Date(dueDate);
+            due.setHours(0, 0, 0, 0);
+            return Math.ceil((due - today) / (1000 * 60 * 60 * 24));
+        }
+
+        function requestNotifications() {
+            if ('Notification' in window) {
+                Notification.requestPermission().then(permission => {
+                    if (permission === 'granted') {
+                        alert('✅ Bildirimler açıldı!');
+                    }
+                });
+            } else {
+                alert('❌ Tarayıcınız bildirimleri desteklemiyor.');
+            }
+        }
+
+        function showInstallPrompt() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then(choice => {
+                    if (choice.outcome === 'accepted') {
+                        alert('🎉 Uygulama yüklendi!');
+                    }
+                    deferredPrompt = null;
+                });
+            } else {
+                alert('📱 Uygulama Yükleme:\n\n1. Chrome menü (⋮)\n2. "Ana ekrana ekle"\n3. "Ekle" butonuna bas\n\nveya\n\niOS Safari:\n1. Paylaş (📤)\n2. "Ana Ekrana Ekle"');
+            }
+        }
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+        });
+
+        window.addEventListener('load', checkLogin);
+    </script>
+</body>
+</html>
+```
+
+---
