@@ -1,1 +1,656 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#7c3aed">
+    <meta name="description" content="Borç ve alacaklarınızı kolayca takip edin">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Borç Takip">
+    <title>Borç & Alacak Takip</title>
+    
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIkJvcsOnICYgQWxhY2FrIFRha2lwIiwKICAic2hvcnRfbmFtZSI6ICJCb3LDpyBUYWtpcCIsCiAgInN0YXJ0X3VybCI6ICIuLyIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiIzFmMjkzNyIsCiAgInRoZW1lX2NvbG9yIjogIiM3YzNhZWQiLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJkYXRhOmltYWdlL3N2Zyt4bWw7YmFzZTY0LFBITjJaeUI0Yld4dWN6MGlhSFIwY0RvdkwzZDNkeTUzTXk1dmNtY3ZNakF3TUM5emRtY2lJSGRwWkhSb1BTSXhPVElpSUdobGFXZG9kRDBpTVRreUlqNDhjbVZqZENCM2FXUjBhRDBpTVRreUlpQm9aV2xuYUhROUlqRTVNaUlnWm1sc2JEMGlJemRqTTJGbFpDSXZQangwWlhoMElIZzlJalEwSWlCNVBTSTROQ0lnWm1sc2JEMGlkMmhwZEdVaUlHWnZiblF0YzJsNlpUMGlOREFpSUdadmJuUXRkMlZwWjJoMFBTSmliMnhrSWo0OFAzUjBlSFE4TDNOMlp6ND0iLAogICAgICAic2l6ZXMiOiAiMTkyeDE5MiIsCiAgICAgICJ0eXBlIjogImltYWdlL3N2Zyt4bWwiCiAgICB9CiAgXQp9">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #1e293b 0%, #7e22ce 50%, #1e293b 100%);
+            min-height: 100vh;
+            padding-bottom: 80px;
+            overflow-x: hidden;
+        }
+        
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: linear-gradient(90deg, #7e22ce 0%, #4f46e5 100%);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            padding: 16px;
+        }
+        
+        .header-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        
+        .header-title h1 {
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+        
+        .stat-card {
+            border-radius: 12px;
+            padding: 8px;
+            text-align: center;
+        }
+        
+        .stat-card.kasa { background: rgba(234, 179, 8, 0.9); }
+        .stat-card.borc { background: rgba(239, 68, 68, 0.9); }
+        .stat-card.alacak { background: rgba(34, 197, 94, 0.9); }
+        .stat-card.net { background: linear-gradient(135deg, #a855f7 0%, #4f46e5 100%); }
+        
+        .stat-label {
+            color: white;
+            font-size: 11px;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        
+        .stat-value {
+            color: white;
+            font-size: 13px;
+            font-weight: bold;
+        }
+        
+        .container {
+            padding: 16px;
+        }
+        
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        
+        .btn {
+            padding: 12px;
+            border-radius: 12px;
+            border: none;
+            color: white;
+            font-weight: bold;
+            font-size: 13px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .btn:active {
+            transform: scale(0.95);
+        }
+        
+        .btn-primary { background: linear-gradient(90deg, #4f46e5 0%, #7c3aed 100%); }
+        .btn-danger { background: linear-gradient(90deg, #dc2626 0%, #ef4444 100%); }
+        .btn-success { background: linear-gradient(90deg, #16a34a 0%, #22c55e 100%); }
+        .btn-warning { background: linear-gradient(90deg, #ea580c 0%, #f97316 100%); }
+        
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+        
+        .card h3 {
+            font-size: 18px;
+            margin-bottom: 16px;
+            color: #1e293b;
+        }
+        
+        .form-group {
+            margin-bottom: 16px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            font-size: 14px;
+            color: #475569;
+            margin-bottom: 8px;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 16px;
+        }
+        
+        .type-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .type-option {
+            padding: 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .type-option.active.debt {
+            border-color: #ef4444;
+            background: #fee2e2;
+        }
+        
+        .type-option.active.credit {
+            border-color: #22c55e;
+            background: #dcfce7;
+        }
+        
+        .item-card {
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 12px;
+            border: 2px solid;
+        }
+        
+        .item-card.debt {
+            background: linear-gradient(135deg, #fee2e2 0%, #fed7aa 100%);
+            border-color: #fca5a5;
+        }
+        
+        .item-card.credit {
+            background: linear-gradient(135deg, #dcfce7 0%, #d1fae5 100%);
+            border-color: #86efac;
+        }
+        
+        .item-card.paid {
+            background: #f1f5f9;
+            border-color: #cbd5e1;
+            opacity: 0.6;
+        }
+        
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 12px;
+        }
+        
+        .item-person {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .item-amount {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        
+        .item-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .btn-small {
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: none;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .hidden { display: none; }
+        
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            padding: 16px;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .alert {
+            background: linear-gradient(90deg, #7c3aed 0%, #4f46e5 100%);
+            color: white;
+            padding: 16px;
+            border-radius: 16px;
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            animation: slideDown 0.5s;
+        }
+        
+        @keyframes slideDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+        
+        .badge-urgent { background: #dc2626; color: white; }
+        .badge-overdue { background: #ef4444; color: white; }
+    </style>
+</head>
+<body>
+    <div id="app"></div>
 
+    <script>
+        let items = [];
+        let cashBalance = 0;
+        let currentType = 'debt';
+        let deferredPrompt;
+        let currentUser = null;
+
+        function checkLogin() {
+            currentUser = localStorage.getItem('currentUser');
+            if (!currentUser) {
+                showLoginScreen();
+            } else {
+                showApp();
+                loadData();
+            }
+        }
+
+        function showLoginScreen() {
+            document.getElementById('app').innerHTML = `
+                <div style="min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; background: linear-gradient(135deg, #1e293b 0%, #7e22ce 50%, #1e293b 100%);">
+                    <div style="background: white; border-radius: 24px; padding: 32px; max-width: 400px; width: 100%; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
+                        <div style="text-align: center; margin-bottom: 32px;">
+                            <div style="font-size: 64px; margin-bottom: 16px;">💰</div>
+                            <h1 style="font-size: 28px; color: #1e293b; margin-bottom: 8px;">Borç & Alacak Takip</h1>
+                            <p style="color: #64748b; font-size: 14px;">Hesabınıza giriş yapın</p>
+                        </div>
+
+                        <div id="loginForm">
+                            <div style="margin-bottom: 16px;">
+                                <label style="display: block; font-weight: bold; color: #475569; margin-bottom: 8px; font-size: 14px;">👤 Kullanıcı Adı</label>
+                                <input type="text" id="loginUsername" placeholder="Kullanıcı adınızı girin" style="width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 16px;">
+                            </div>
+                            
+                            <div style="margin-bottom: 24px;">
+                                <label style="display: block; font-weight: bold; color: #475569; margin-bottom: 8px; font-size: 14px;">🔒 Şifre</label>
+                                <input type="password" id="loginPassword" placeholder="Şifrenizi girin" style="width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 16px;">
+                            </div>
+
+                            <button onclick="login()" style="width: 100%; padding: 14px; background: linear-gradient(90deg, #7c3aed 0%, #4f46e5 100%); color: white; border: none; border-radius: 12px; font-weight: bold; font-size: 16px; cursor: pointer; margin-bottom: 12px;">
+                                🚀 Giriş Yap
+                            </button>
+
+                            <button onclick="showRegisterForm()" style="width: 100%; padding: 14px; background: white; color: #7c3aed; border: 2px solid #7c3aed; border-radius: 12px; font-weight: bold; font-size: 16px; cursor: pointer;">
+                                ✨ Yeni Hesap Oluştur
+                            </button>
+                        </div>
+
+                        <div id="registerForm" style="display: none;">
+                            <div style="margin-bottom: 16px;">
+                                <label style="display: block; font-weight: bold; color: #475569; margin-bottom: 8px; font-size: 14px;">👤 Kullanıcı Adı</label>
+                                <input type="text" id="registerUsername" placeholder="Kullanıcı adı seçin" style="width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 16px;">
+                            </div>
+
+                            <div style="margin-bottom: 16px;">
+                                <label style="display: block; font-weight: bold; color: #475569; margin-bottom: 8px; font-size: 14px;">📧 E-posta (Opsiyonel)</label>
+                                <input type="email" id="registerEmail" placeholder="ornek@email.com" style="width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 16px;">
+                            </div>
+                            
+                            <div style="margin-bottom: 16px;">
+                                <label style="display: block; font-weight: bold; color: #475569; margin-bottom: 8px; font-size: 14px;">🔒 Şifre</label>
+                                <input type="password" id="registerPassword" placeholder="Güçlü bir şifre seçin" style="width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 16px;">
+                            </div>
+
+                            <div style="margin-bottom: 24px;">
+                                <label style="display: block; font-weight: bold; color: #475569; margin-bottom: 8px; font-size: 14px;">🔒 Şifre Tekrar</label>
+                                <input type="password" id="registerPasswordConfirm" placeholder="Şifrenizi tekrar girin" style="width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 16px;">
+                            </div>
+
+                            <button onclick="register()" style="width: 100%; padding: 14px; background: linear-gradient(90deg, #16a34a 0%, #22c55e 100%); color: white; border: none; border-radius: 12px; font-weight: bold; font-size: 16px; cursor: pointer; margin-bottom: 12px;">
+                                ✅ Hesap Oluştur
+                            </button>
+
+                            <button onclick="showLoginForm()" style="width: 100%; padding: 14px; background: white; color: #64748b; border: 2px solid #e2e8f0; border-radius: 12px; font-weight: bold; font-size: 16px; cursor: pointer;">
+                                ← Giriş Sayfasına Dön
+                            </button>
+                        </div>
+
+                        <div style="margin-top: 24px; padding-top: 24px; border-top: 1px solid #e2e8f0; text-align: center;">
+                            <p style="font-size: 12px; color: #94a3b8;">
+                                🔒 Verileriniz güvenli şekilde cihazınızda saklanır
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function showRegisterForm() {
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('registerForm').style.display = 'block';
+        }
+
+        function showLoginForm() {
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('registerForm').style.display = 'none';
+        }
+
+        function register() {
+            const username = document.getElementById('registerUsername').value.trim();
+            const email = document.getElementById('registerEmail').value.trim();
+            const password = document.getElementById('registerPassword').value;
+            const passwordConfirm = document.getElementById('registerPasswordConfirm').value;
+
+            if (!username) {
+                alert('❌ Kullanıcı adı gerekli!');
+                return;
+            }
+
+            if (username.length < 3) {
+                alert('❌ Kullanıcı adı en az 3 karakter olmalı!');
+                return;
+            }
+
+            if (!password) {
+                alert('❌ Şifre gerekli!');
+                return;
+            }
+
+            if (password.length < 4) {
+                alert('❌ Şifre en az 4 karakter olmalı!');
+                return;
+            }
+
+            if (password !== passwordConfirm) {
+                alert('❌ Şifreler eşleşmiyor!');
+                return;
+            }
+
+            const users = JSON.parse(localStorage.getItem('users') || '{}');
+            if (users[username]) {
+                alert('❌ Bu kullanıcı adı zaten kullanılıyor!');
+                return;
+            }
+
+            users[username] = {
+                password: btoa(password),
+                email: email,
+                createdAt: new Date().toISOString()
+            };
+
+            localStorage.setItem('users', JSON.stringify(users));
+            alert('🎉 Hesabınız oluşturuldu!\n\nŞimdi giriş yapabilirsiniz.');
+            showLoginForm();
+        }
+
+        function login() {
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value;
+
+            if (!username || !password) {
+                alert('❌ Kullanıcı adı ve şifre gerekli!');
+                return;
+            }
+
+            const users = JSON.parse(localStorage.getItem('users') || '{}');
+            const user = users[username];
+
+            if (!user) {
+                alert('❌ Kullanıcı bulunamadı!');
+                return;
+            }
+
+            if (atob(user.password) !== password) {
+                alert('❌ Şifre yanlış!');
+                return;
+            }
+
+            localStorage.setItem('currentUser', username);
+            currentUser = username;
+            location.reload();
+        }
+
+        function logout() {
+            if (confirm('Çıkış yapmak istediğinizden emin misiniz?')) {
+                localStorage.removeItem('currentUser');
+                location.reload();
+            }
+        }
+
+        function showApp() {
+            document.getElementById('app').innerHTML = `
+                <div class="header">
+                    <div class="header-title">
+                        <span style="font-size: 28px;">💰</span>
+                        <h1>Borç & Alacak</h1>
+                        <div style="margin-left: auto; display: flex; align-items: center; gap: 8px;">
+                            <span style="color: white; font-size: 14px; background: rgba(255,255,255,0.2); padding: 6px 12px; border-radius: 8px;">👤 ${currentUser}</span>
+                            <button onclick="logout()" style="background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 12px;">🚪 Çıkış</button>
+                        </div>
+                    </div>
+                    <div class="stats-grid">
+                        <div class="stat-card kasa">
+                            <div class="stat-label">💰 Kasa</div>
+                            <div class="stat-value" id="kasaValue">0,00</div>
+                        </div>
+                        <div class="stat-card borc">
+                            <div class="stat-label">Borç</div>
+                            <div class="stat-value" id="borcValue">0,00</div>
+                        </div>
+                        <div class="stat-card alacak">
+                            <div class="stat-label">Alacak</div>
+                            <div class="stat-value" id="alacakValue">0,00</div>
+                        </div>
+                        <div class="stat-card net">
+                            <div class="stat-label">💎 Net</div>
+                            <div class="stat-value" id="netValue">0,00</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container">
+                    <div class="button-grid">
+                        <button class="btn btn-primary" onclick="toggleForm()">➕ Kayıt</button>
+                        <button class="btn btn-danger" onclick="togglePeople()">👥 Kişiler</button>
+                        <button class="btn btn-warning" onclick="toggleCash()">💰 Kasa</button>
+                        <button class="btn btn-success" onclick="showInstallPrompt()">📱 Yükle</button>
+                    </div>
+
+                    <div id="formCard" class="card hidden">
+                        <h3>➕ Yeni Kayıt</h3>
+                        <div class="type-selector">
+                            <div class="type-option active debt" onclick="selectType('debt')">
+                                <div style="font-size: 24px; margin-bottom: 8px;">📉</div>
+                                <div style="font-weight: bold; color: #dc2626;">Borç</div>
+                                <div style="font-size: 11px; color: #64748b;">Ödeyeceğim</div>
+                            </div>
+                            <div class="type-option" onclick="selectType('credit')">
+                                <div style="font-size: 24px; margin-bottom: 8px;">📈</div>
+                                <div style="font-weight: bold; color: #16a34a;">Alacak</div>
+                                <div style="font-size: 11px; color: #64748b;">Tahsil edeceğim</div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>👤 Kişi/Kurum</label>
+                            <input type="text" id="personInput" placeholder="Adı girin">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>💰 Tutar</label>
+                            <input type="number" id="amountInput" step="0.01" placeholder="0,00">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>📝 Açıklama</label>
+                            <input type="text" id="descInput" placeholder="Ödeme nedeni...">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>📅 Vade Tarihi</label>
+                            <input type="date" id="dateInput">
+                        </div>
+                        
+                        <button class="btn btn-primary" style="width: 100%;" onclick="saveItem()">💾 Kaydet</button>
+                    </div>
+
+                    <div id="cashCard" class="card hidden">
+                        <h3>💰 Kasa Yönetimi</h3>
+                        <div style="background: linear-gradient(90deg, #fef3c7 0%, #fed7aa 100%); border-radius: 12px; padding: 16px; margin-bottom: 16px; border: 2px solid #fbbf24;">
+                            <div style="font-size: 12px; color: #78350f; margin-bottom: 4px;">Mevcut Bakiye</div>
+                            <div style="font-size: 32px; font-weight: bold;" id="cashBalance">0,00 ₺</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>💵 Tutar</label>
+                            <input type="number" id="cashAmountInput" step="0.01" placeholder="Para ekle (+) veya çıkar (-)">
+                        </div>
+                        
+                        <button class="btn btn-warning" style="width: 100%;" onclick="updateCash()">💰 İşlemi Kaydet</button>
+                    </div>
+
+                    <div id="itemsList"></div>
+                </div>
+
+                <div class="footer">
+                    <button class="btn btn-primary" style="width: 100%;" onclick="requestNotifications()">🔔 Bildirimleri Aç</button>
+                </div>
+            `;
+        }
+
+        function loadData() {
+            const userKey = 'user_' + currentUser;
+            const savedItems = localStorage.getItem(userKey + '_items');
+            const savedCash = localStorage.getItem(userKey + '_cash');
+            
+            if (savedItems) items = JSON.parse(savedItems);
+            if (savedCash) cashBalance = parseFloat(savedCash);
+            
+            updateUI();
+        }
+
+        function saveData() {
+            const userKey = 'user_' + currentUser;
+            localStorage.setItem(userKey + '_items', JSON.stringify(items));
+            localStorage.setItem(userKey + '_cash', cashBalance.toString());
+        }
+
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('tr-TR', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }).format(amount);
+        }
+
+        function toggleForm() {
+            const form = document.getElementById('formCard');
+            form.classList.toggle('hidden');
+            document.getElementById('cashCard').classList.add('hidden');
+        }
+
+        function toggleCash() {
+            const cash = document.getElementById('cashCard');
+            cash.classList.toggle('hidden');
+            document.getElementById('formCard').classList.add('hidden');
+        }
+
+        function togglePeople() {
+            alert('👥 Kişiler özelliği yakında eklenecek!');
+        }
+
+        function selectType(type) {
+            currentType = type;
+            document.querySelectorAll('.type-option').forEach(el => el.classList.remove('active'));
+            event.target.closest('.type-option').classList.add('active', type);
+        }
+
+        function saveItem() {
+            const person = document.getElementById('personInput').value;
+            const amount = parseFloat(document.getElementById('amountInput').value);
+            const description = document.getElementById('descInput').value;
+            const dueDate = document.getElementById('dateInput').value;
+
+            if (!person || !amount) {
+                alert('❌ Kişi ve tutar zorunludur!');
+                return;
+            }
+
+            items.push({
+                id: Date.now(),
+                type: currentType,
+                person,
+                amount,
+                description,
+                dueDate,
+                paid: false
+            });
+
+            saveData();
+            updateUI();
+            
+            document.getElementById('personInput').value = '';
+            document.getElementById('amountInput').value = '';
+            document.getElementById('descInput').value = '';
+            document.getElementById('dateInput').value = '';
+            toggleForm();
+            
+            alert('✅ Kayıt eklendi!');
+        }
+
+        function updateCash() {
+            const amount = parseFloat(document.getElementById('cashAmountInput').value);
+            if (!amount) {
+                alert('❌ Tutar girin!');
+                return;
+            }
+            
+            cashBalance += amount;
+            saveData();
+            updateUI();
+            document.getElementById('cashAmountInput').value = '';
+            alert(`✅ Kasa güncellendi!\n\nYeni bakiye: ${formatCurrency(cashBalance)} ₺`);
+        }
+
+        function togglePaid(id) {
+            const item = items.find(i => i.id === id);
+            if (!item) return;
+            
+            const amount = item.amount;
+            item.paid = !item.paid;
