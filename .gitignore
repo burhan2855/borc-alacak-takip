@@ -1,0 +1,30 @@
+# GPG ve yedekleme dosyaları
+*.asc
+*.gpg
+*-key-backup.asc
+private-key-backup.asc
+public-key-backup.asc
+revoke-certificate.asc
+
+# Geçici dosyalar
+*.tmp
+*.temp
+.DS_Store
+Thumbs.db
+
+# IDE ve editör dosyaları
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Node modules (gelecekteki kullanım için)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Build çıktıları
+dist/
+build/
+*.log
