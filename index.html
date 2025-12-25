@@ -591,7 +591,7 @@
         }
 
         function loadData() {
-            const userKey = 'user_' + currentUser;
+            const userKey = getUserKey();
             const savedItems = localStorage.getItem(userKey + '_items');
             const savedCash = localStorage.getItem(userKey + '_cash');
             
@@ -602,7 +602,7 @@
         }
 
         function saveData() {
-            const userKey = 'user_' + currentUser;
+            const userKey = getUserKey();
             localStorage.setItem(userKey + '_items', JSON.stringify(items));
             localStorage.setItem(userKey + '_cash', cashBalance.toString());
         }
@@ -612,6 +612,10 @@
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2
             }).format(amount);
+        }
+
+        function getUserKey() {
+            return 'user_' + currentUser;
         }
 
         function toggleForm() {
@@ -636,10 +640,11 @@
             
             // Load current API key if exists
             if (!settings.classList.contains('hidden')) {
-                const userKey = 'user_' + currentUser;
-                const apiKey = localStorage.getItem(userKey + '_apiKey');
+                const apiKey = localStorage.getItem(getUserKey() + '_apiKey');
                 if (apiKey) {
                     document.getElementById('apiKeyInput').value = apiKey;
+                } else {
+                    document.getElementById('apiKeyInput').value = '';
                 }
             }
         }
@@ -653,22 +658,20 @@
             }
             
             if (!apiKey.startsWith('sk-')) {
-                alert('⚠️ Uyarı: OpenAI API anahtarları genellikle "sk-" ile başlar. Yine de devam etmek istiyor musunuz?');
+                if (!confirm('⚠️ Uyarı: OpenAI API anahtarları genellikle "sk-" ile başlar. Yine de devam etmek istiyor musunuz?')) {
+                    return;
+                }
             }
             
-            const userKey = 'user_' + currentUser;
-            localStorage.setItem(userKey + '_apiKey', apiKey);
+            localStorage.setItem(getUserKey() + '_apiKey', apiKey);
             
             alert('✅ API anahtarı kaydedildi!\n\n🤖 ChatGPT özellikleri artık kullanılabilir.');
-            document.getElementById('apiKeyInput').value = '';
-            toggleSettings();
         }
 
         function clearApiKey() {
             if (!confirm('API anahtarını silmek istediğinizden emin misiniz?')) return;
             
-            const userKey = 'user_' + currentUser;
-            localStorage.removeItem(userKey + '_apiKey');
+            localStorage.removeItem(getUserKey() + '_apiKey');
             document.getElementById('apiKeyInput').value = '';
             
             alert('✅ API anahtarı silindi!');
