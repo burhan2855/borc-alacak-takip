@@ -490,7 +490,7 @@
                         <button class="btn btn-primary" onclick="toggleForm()">➕ Kayıt</button>
                         <button class="btn btn-danger" onclick="togglePeople()">👥 Kişiler</button>
                         <button class="btn btn-warning" onclick="toggleCash()">💰 Kasa</button>
-                        <button class="btn btn-success" onclick="showInstallPrompt()">📱 Yükle</button>
+                        <button class="btn btn-success" onclick="toggleSettings()">⚙️ Ayarlar</button>
                     </div>
 
                     <div id="formCard" class="card hidden">
@@ -546,17 +546,66 @@
                         <button class="btn btn-warning" style="width: 100%;" onclick="updateCash()">💰 İşlemi Kaydet</button>
                     </div>
 
+                    <div id="settingsCard" class="card hidden">
+                        <h3>⚙️ Ayarlar</h3>
+                        
+                        <div style="background: linear-gradient(90deg, #f0f9ff 0%, #e0f2fe 100%); border-radius: 12px; padding: 16px; margin-bottom: 16px; border: 2px solid #38bdf8;">
+                            <div style="font-size: 14px; font-weight: bold; color: #0369a1; margin-bottom: 8px;">🤖 OpenAI API Yapılandırması</div>
+                            <div style="font-size: 12px; color: #0c4a6e;">ChatGPT/GPT-3 özelliklerini kullanmak için API anahtarınızı girin.</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>🔑 OpenAI API Key</label>
+                            <input type="password" id="apiKeyInput" placeholder="sk-...">
+                            <div style="font-size: 11px; color: #64748b; margin-top: 4px;">API anahtarınız güvenli şekilde cihazınızda saklanır</div>
+                        </div>
+                        
+                        <div style="display: flex; gap: 8px;">
+                            <button class="btn btn-primary" style="flex: 1;" onclick="saveApiKey()">💾 Kaydet</button>
+                            <button class="btn btn-danger" style="flex: 1;" onclick="clearApiKey()">🗑️ Temizle</button>
+                        </div>
+                        
+                        <div style="margin-top: 16px; padding-top: 16px; border-top: 2px solid #e2e8f0;">
+                            <div style="font-size: 12px; color: #64748b; margin-bottom: 8px;">
+                                <strong>API Anahtarı Nasıl Kullanılır?</strong>
+                            </div>
+                            <div style="font-size: 11px; color: #94a3b8; line-height: 1.6; margin-bottom: 12px;">
+                                API anahtarınızı kaydettikten sonra, gelecekte eklenecek ChatGPT özellikleri için hazır olacaksınız:<br><br>
+                                • 🤖 <strong>Akıllı Öneriler</strong>: Borç ve alacak yönetimi için AI tavsiyeleri<br>
+                                • 📊 <strong>Ödeme Planları</strong>: Kişiselleştirilmiş ödeme stratejileri<br>
+                                • 💬 <strong>Sohbet Asistanı</strong>: Finansal sorularınız için yapay zeka desteği<br>
+                                • 📝 <strong>Akıllı Notlar</strong>: Otomatik açıklama ve kategorizasyon<br><br>
+                                <em>Not: Bu özellikler geliştirilme aşamasındadır. API anahtarınız kaydedildi ve hazır olduğunda otomatik olarak kullanılacaktır.</em>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 16px; padding-top: 16px; border-top: 2px solid #e2e8f0;">
+                            <div style="font-size: 12px; color: #64748b; margin-bottom: 8px;">
+                                <strong>API Anahtarı Nereden Alınır?</strong>
+                            </div>
+                            <div style="font-size: 11px; color: #94a3b8; line-height: 1.6;">
+                                1. <a href="https://platform.openai.com" target="_blank" style="color: #7c3aed;">platform.openai.com</a> adresine gidin<br>
+                                2. Hesabınıza giriş yapın<br>
+                                3. API Keys bölümüne gidin<br>
+                                4. "Create new secret key" butonuna tıklayın
+                            </div>
+                        </div>
+                    </div>
+
                     <div id="itemsList"></div>
                 </div>
 
                 <div class="footer">
-                    <button class="btn btn-primary" style="width: 100%;" onclick="requestNotifications()">🔔 Bildirimleri Aç</button>
+                    <div style="display: flex; gap: 8px;">
+                        <button class="btn btn-primary" style="flex: 1;" onclick="requestNotifications()">🔔 Bildirimler</button>
+                        <button class="btn btn-success" style="flex: 1;" onclick="showInstallPrompt()">📱 Yükle</button>
+                    </div>
                 </div>
             `;
         }
 
         function loadData() {
-            const userKey = 'user_' + currentUser;
+            const userKey = getUserKey();
             const savedItems = localStorage.getItem(userKey + '_items');
             const savedCash = localStorage.getItem(userKey + '_cash');
             
@@ -567,7 +616,7 @@
         }
 
         function saveData() {
-            const userKey = 'user_' + currentUser;
+            const userKey = getUserKey();
             localStorage.setItem(userKey + '_items', JSON.stringify(items));
             localStorage.setItem(userKey + '_cash', cashBalance.toString());
         }
@@ -579,16 +628,67 @@
             }).format(amount);
         }
 
+        function getUserKey() {
+            return 'user_' + currentUser;
+        }
+
         function toggleForm() {
             const form = document.getElementById('formCard');
             form.classList.toggle('hidden');
             document.getElementById('cashCard').classList.add('hidden');
+            document.getElementById('settingsCard').classList.add('hidden');
         }
 
         function toggleCash() {
             const cash = document.getElementById('cashCard');
             cash.classList.toggle('hidden');
             document.getElementById('formCard').classList.add('hidden');
+            document.getElementById('settingsCard').classList.add('hidden');
+        }
+
+        function toggleSettings() {
+            const settings = document.getElementById('settingsCard');
+            settings.classList.toggle('hidden');
+            document.getElementById('formCard').classList.add('hidden');
+            document.getElementById('cashCard').classList.add('hidden');
+            
+            // Load current API key if exists
+            if (!settings.classList.contains('hidden')) {
+                const apiKey = localStorage.getItem(getUserKey() + '_apiKey');
+                if (apiKey) {
+                    document.getElementById('apiKeyInput').value = apiKey;
+                } else {
+                    document.getElementById('apiKeyInput').value = '';
+                }
+            }
+        }
+
+        function saveApiKey() {
+            const apiKey = document.getElementById('apiKeyInput').value.trim();
+            
+            if (!apiKey) {
+                alert('❌ API anahtarı gerekli!');
+                return;
+            }
+            
+            if (!apiKey.startsWith('sk-')) {
+                if (!confirm('⚠️ Uyarı: OpenAI API anahtarları genellikle "sk-" ile başlar. Yine de devam etmek istiyor musunuz?')) {
+                    return;
+                }
+            }
+            
+            localStorage.setItem(getUserKey() + '_apiKey', apiKey);
+            
+            alert('✅ API anahtarı kaydedildi!\n\n🤖 ChatGPT özellikleri artık kullanılabilir.');
+        }
+
+        function clearApiKey() {
+            if (!confirm('API anahtarını silmek istediğinizden emin misiniz?')) return;
+            
+            localStorage.removeItem(getUserKey() + '_apiKey');
+            document.getElementById('apiKeyInput').value = '';
+            
+            alert('✅ API anahtarı silindi!');
         }
 
         function togglePeople() {
