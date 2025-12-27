@@ -1,0 +1,32 @@
+# local.properties.example
+# Bu dosya, geliştirme ortamında kullanılmak üzere tasarlanmıştır.
+# Kendi değerlerinizi girerek local.properties dosyasını oluşturun.
+# 
+# ⚠️ ÖNEMLİ: local.properties dosyasını .gitignore'a ekleyin!
+#           Şifrelerinizi GitHub'a push ETMEYİN!
+
+## Android SDK
+sdk.dir=/path/to/android/sdk
+
+## Gemini API Key
+GEMINI_API_KEY=your-gemini-api-key-here
+
+## Release Signing Configuration
+## Bu değerleri kendi keystore'unuzun bilgileriyle değiştirin
+##
+## BORC_TAKIP_STORE_FILE: Keystore dosyasının yolu
+##   Örnek: release-key.keystore veya C:\path\to\release-key.keystore
+##
+## BORC_TAKIP_STORE_PASSWORD: Keystore'un şifresi
+##   Örnek: MySecurePassword123!
+##
+## BORC_TAKIP_KEY_ALIAS: Keystore içindeki key'in adı
+##   Örnek: release-key veya my-release-key
+##
+## BORC_TAKIP_KEY_PASSWORD: Key'in şifresi
+##   Örnek: KeyPassword456!
+
+BORC_TAKIP_STORE_FILE=release-key.keystore
+BORC_TAKIP_STORE_PASSWORD=<your-keystore-password>
+BORC_TAKIP_KEY_ALIAS=<your-key-alias>
+BORC_TAKIP_KEY_PASSWORD=<your-key-password>

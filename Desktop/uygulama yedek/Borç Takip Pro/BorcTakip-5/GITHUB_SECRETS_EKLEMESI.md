@@ -174,17 +174,35 @@ Yedek Dosya: release-key.keystore.backup (eski keystore)
 
 ---
 
-## 🔑 ŞIFRE ÖZET
+## 📝 LOKAL DOSYA BİLGİSİ
+
+Lokal makinenizde:
+
+```
+Keystore Dosyası: release-key.keystore (veya kendi dosyanız)
+Konfigürasyon: local.properties dosyasında
+```
+
+**Bu dosyalar repository'ye COMMIT ETMEYIN!**
+`.gitignore`'da zaten var ama kontrol edin.
+
+---
+
+## 🔑 ŞİFRE ÖZET (Kendi Şifreleriniz)
 
 Hızlı referans (yazıp saklayın):
 
-| Anahtar | Değer |
-|---------|-------|
-| **Keystore Şifresi** | `BorcTakip2024Secure!` |
-| **Key Alias** | `release-key` |
-| **Key Şifresi** | `BorcTakip2024Secure!` |
-| **Keystore Dosyası** | `release-key.keystore` |
-| **Geçerlilik** | 10000 gün (~27 yıl) |
+| Anahtar | Değer | Not |
+|---------|-------|-----|
+| **Keystore Şifresi** | `<your-password>` | Güvenli yerde saklayın |
+| **Key Alias** | `<your-alias>` | Genellikle `release-key` |
+| **Key Şifresi** | `<your-password>` | Keystore şifresi ile aynı olabilir |
+| **Keystore Dosyası** | `release-key.keystore` | Proje root'unda |
+
+**⚠️ ÖNEMLİ:**
+- Kendi şifrelerinizi yazın (bu rehberdeki örnekler değil!)
+- Şifreleri güvenli bir yerde saklayın
+- Başkasına söylemeyin!
 
 ---
 
