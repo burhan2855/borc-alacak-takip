@@ -54,6 +54,8 @@ import com.burhan2855.borctakip.gemini.GeminiScreen
 import com.burhan2855.borctakip.gemini.GeminiSettingsScreen
 import com.burhan2855.borctakip.gemini.GeminiViewModel
 import com.burhan2855.borctakip.gemini.GeminiPreferencesManager
+import com.burhan2855.borctakip.gemini.CopilotSettingsScreen
+import com.burhan2855.borctakip.gemini.CopilotVoiceAssistantScreen
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -352,6 +354,8 @@ class MainActivity : ComponentActivity() {
                                 onNavigateToCurrencySelection = { navController.navigate("currency_selection_screen") },
                                 onNavigateToLanguageSelection = { navController.navigate("language_selection_screen") },
                                 onNavigateToCalendarSettings = { navController.navigate("calendar_settings_screen") },
+                                onNavigateToCopilotSettings = { navController.navigate("copilot_settings_screen") },
+                                onNavigateToGeminiSettings = { navController.navigate("gemini_settings_screen") },
                                 onNavigateUp = { navController.navigateUp() },
                                 onSignOut = {
                                     FirebaseAuth.getInstance().signOut()
@@ -382,6 +386,20 @@ class MainActivity : ComponentActivity() {
                         composable("calendar_settings_screen") {
                             CalendarSettingsScreen(
                                 onNavigateBack = { navController.navigateUp() }
+                            )
+                        }
+                        composable("copilot_settings_screen") {
+                            CopilotSettingsScreen(
+                                onNavigateUp = { navController.navigateUp() }
+                            )
+                        }
+                        composable("gemini_settings_screen") {
+                            val currentApiKey by geminiPreferencesManager.apiKey.collectAsState("")
+                            GeminiSettingsScreen(
+                                geminiViewModel = geminiViewModel,
+                                geminiPreferencesManager = geminiPreferencesManager,
+                                currentApiKey = currentApiKey,
+                                onNavigateUp = { navController.navigateUp() }
                             )
                         }
                         composable(

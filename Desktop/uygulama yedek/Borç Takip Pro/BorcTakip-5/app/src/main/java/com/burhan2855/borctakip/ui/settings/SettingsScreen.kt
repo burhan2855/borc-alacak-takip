@@ -113,6 +113,44 @@ fun SettingsScreen(
             )
             HorizontalDivider()
             
+            // AI Asistanlar Bölümü
+            Text(
+                text = "🤖 AI Asistanları",
+                style = MaterialTheme.typography.titleSmall,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(16.dp, 12.dp)
+            )
+            
+            // GitHub Copilot Ayarları
+            ListItem(
+                headlineContent = { Text("GitHub Copilot") },
+                supportingContent = { Text("Sesli asistan, rapor ve tavsiye sistemi") },
+                leadingContent = {
+                    Icon(
+                        imageVector = Icons.Default.Settings,
+                        contentDescription = "Copilot",
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                },
+                modifier = Modifier.clickable(onClick = onNavigateToCopilotSettings)
+            )
+            HorizontalDivider()
+            
+            // Gemini Ayarları
+            ListItem(
+                headlineContent = { Text("Google Gemini") },
+                supportingContent = { Text("Gemini API anahtarı ayarları") },
+                leadingContent = {
+                    Icon(
+                        imageVector = Icons.Default.Settings,
+                        contentDescription = "Gemini",
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                },
+                modifier = Modifier.clickable(onClick = onNavigateToGeminiSettings)
+            )
+            HorizontalDivider()
+            
             // Sign Out Option (if signed in)
             onSignOut?.let { signOutAction ->
                 var showSignOutDialog by remember { mutableStateOf(false) }
