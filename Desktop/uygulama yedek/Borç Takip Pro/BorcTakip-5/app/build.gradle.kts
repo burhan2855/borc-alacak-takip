@@ -96,6 +96,17 @@ dependencies {
     
     // Google Generative AI SDK (Gemini)
     implementation("com.google.ai.client.generativeai:generativeai:0.9.0")
+    
+    // GitHub Copilot Chat API
+    implementation("com.squareup.okhttp3:okhttp:4.11.0")
+    implementation("com.google.code.gson:gson:2.10.1")
+    
+    // Sesli Komut (Speech Recognition & Text to Speech)
+    implementation("androidx.speech:speech:1.0.0-alpha01")
+    
+    // REST API Client
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
     implementation("androidx.core:core-ktx:1.13.1")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
