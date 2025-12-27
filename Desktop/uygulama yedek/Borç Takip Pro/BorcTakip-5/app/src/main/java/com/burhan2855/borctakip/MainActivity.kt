@@ -394,7 +394,7 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                         composable("gemini_settings_screen") {
-                            val currentApiKey by geminiPreferencesManager.apiKey.collectAsState("")
+                            val currentApiKey by geminiPreferencesManager.apiKeyFlow.collectAsState(initial = "")
                             GeminiSettingsScreen(
                                 geminiViewModel = geminiViewModel,
                                 geminiPreferencesManager = geminiPreferencesManager,

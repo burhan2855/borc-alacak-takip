@@ -7,6 +7,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -26,6 +27,8 @@ fun SettingsScreen(
     onNavigateToCurrencySelection: () -> Unit,
     onNavigateToLanguageSelection: () -> Unit,
     onNavigateToCalendarSettings: () -> Unit,
+    onNavigateToCopilotSettings: () -> Unit = {},
+    onNavigateToGeminiSettings: () -> Unit = {},
     onNavigateUp: () -> Unit,
     onSignOut: (() -> Unit)? = null,
     userDisplayName: String? = null,
