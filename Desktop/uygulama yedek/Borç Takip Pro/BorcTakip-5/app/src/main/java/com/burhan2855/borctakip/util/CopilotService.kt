@@ -1,10 +1,14 @@
 package com.burhan2855.borctakip.util
 
 import android.content.Context
+import android.content.Intent
+import android.os.Bundle
+import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
 import android.speech.tts.TextToSpeech
 import android.util.Log
+import com.burhan2855.borctakip.BuildConfig
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -64,14 +68,14 @@ class CopilotService(private val context: Context) {
     fun startSpeechRecognition(onResult: (String) -> Unit) {
         try {
             speechRecognizer = SpeechRecognizer.createSpeechRecognizer(context)
-            val intent = android.content.Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
+            val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
                 putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
                 putExtra(RecognizerIntent.EXTRA_LANGUAGE, "tr-TR")
                 putExtra(RecognizerIntent.EXTRA_PROMPT, "Komutu söyleyin...")
             }
             
-            speechRecognizer?.setRecognitionListener(object : android.speech.RecognitionListener {
-                override fun onReadyForSpeech(params: android.os.Bundle?) {}
+            speechRecognizer?.setRecognitionListener(object : RecognitionListener {
+                override fun onReadyForSpeech(params: Bundle?) {}
                 override fun onBeginningOfSpeech() {}
                 override fun onRmsChanged(rmsdB: Float) {}
                 override fun onBufferReceived(buffer: ByteArray?) {}
@@ -79,14 +83,14 @@ class CopilotService(private val context: Context) {
                 override fun onError(error: Int) {
                     Log.e(TAG, "Ses tanıma hatası: $error")
                 }
-                override fun onResults(results: android.os.Bundle?) {
+                override fun onResults(results: Bundle?) {
                     val matches = results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
                     if (!matches.isNullOrEmpty()) {
                         onResult(matches[0])
                     }
                 }
-                override fun onPartialResults(partialResults: android.os.Bundle?) {}
-                override fun onEvent(eventType: Int, params: android.os.Bundle?) {}
+                override fun onPartialResults(partialResults: Bundle?) {}
+                override fun onEvent(eventType: Int, params: Bundle?) {}
             })
             
             speechRecognizer?.startListening(intent)
@@ -100,6 +104,10 @@ class CopilotService(private val context: Context) {
      */
     suspend fun askCopilot(question: String): String = withContext(Dispatchers.IO) {
         try {
+            if (apiKey.isEmpty() || apiKey == "") {
+                return@withContext "Lütfen önce GitHub Personal Access Token'ını ayarlardan girin."
+            }
+            
             val messages = listOf(
                 CopilotMessage("system", "Sen Borç Takip Pro uygulaması için yardımcı bir asistansın. Kullanıcıların borç yönetimi, ödeme takibi ve finansal analizler konusunda yardım etmelisin. Kısa ve öz cevaplar ver."),
                 CopilotMessage("user", question)

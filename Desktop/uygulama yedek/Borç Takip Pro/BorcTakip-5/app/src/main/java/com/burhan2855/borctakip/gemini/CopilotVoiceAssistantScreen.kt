@@ -1,6 +1,7 @@
 package com.burhan2855.borctakip.gemini
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material.icons.filled.Stop
@@ -123,7 +124,7 @@ fun CopilotVoiceAssistantScreen(
             },
             modifier = Modifier
                 .size(80.dp),
-            shape = CircleShape,
+            shape = RoundedCornerShape(50.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = if (isListening) MaterialTheme.colorScheme.error
                                else MaterialTheme.colorScheme.primary

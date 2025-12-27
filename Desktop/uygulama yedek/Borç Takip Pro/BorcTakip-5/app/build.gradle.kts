@@ -14,6 +14,7 @@ if (localPropertiesFile.exists()) {
     localProperties.load(localPropertiesFile.inputStream())
 }
 val geminiApiKey = localProperties.getProperty("GEMINI_API_KEY", "")
+val githubCopilotToken = localProperties.getProperty("GITHUB_COPILOT_TOKEN", "")
 
 android {
     namespace = "com.burhan2855.borctakip"
@@ -30,6 +31,9 @@ android {
         
         // Gemini API Key - local.properties'den oku
         buildConfigField("String", "GEMINI_API_KEY", "\"$geminiApiKey\"")
+        
+        // GitHub Copilot Token - local.properties'den oku
+        buildConfigField("String", "GITHUB_COPILOT_TOKEN", "\"$githubCopilotToken\"")
     }
 
     signingConfigs {
@@ -101,8 +105,8 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.11.0")
     implementation("com.google.code.gson:gson:2.10.1")
     
-    // Sesli Komut (Speech Recognition & Text to Speech)
-    implementation("androidx.speech:speech:1.0.0-alpha01")
+    // Sesli Komut (Speech Recognition & Text to Speech) - Android Native
+    // Speech Recognition ve Text-to-Speech Android'in native API'lerini kullanır
     
     // REST API Client
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
