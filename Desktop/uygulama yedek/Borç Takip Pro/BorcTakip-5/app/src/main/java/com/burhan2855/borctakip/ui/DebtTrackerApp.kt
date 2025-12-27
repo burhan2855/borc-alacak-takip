@@ -114,13 +114,6 @@ fun DebtTrackerApp(
                     ) 
                 },
                 actions = {
-                    IconButton(onClick = { navController.navigate("gemini_screen") }) {
-                        Icon(
-                            Icons.Default.Lightbulb,
-                            contentDescription = "Gemini AI",
-                            tint = Color.White
-                        )
-                    }
                     IconButton(onClick = { navController.navigate("report_screen") }) {
                         Icon(
                             Icons.Default.Assessment, 
