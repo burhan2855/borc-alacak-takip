@@ -1,0 +1,22 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Kullanıcıya özel işlemler (transactions)
+    match /users/{userId}/transactions/{transactionId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // Kullanıcıya özel kişiler (contacts)
+    match /users/{userId}/contacts/{contactId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // Eski genel koleksiyonlar (güvenlik için kapatıldı)
+    match /transactions/{document=**} {
+      allow read, write: if false;
+    }
+    match /contacts/{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

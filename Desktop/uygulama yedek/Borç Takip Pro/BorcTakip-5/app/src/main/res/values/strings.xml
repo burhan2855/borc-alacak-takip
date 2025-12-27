@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BorçTakip</string>
+    <string name="debt_alacak_takibi">Borç &amp; Alacak Takibi</string>
+    <string name="kasa">Kasa</string>
+    <string name="borc">Borç</string>
+    <string name="alacak">Alacak</string>
+    <string name="net">Net</string>
+    <string name="tumu">Tümü</string>
+    <string name="borclar">Borçlar</string>
+    <string name="alacaklar">Alacaklar</string>
+    <string name="ekle">Ekle</string>
+    <string name="kisiler">Kişiler</string>
+    <string name="taksit_ekle">Taksit Ekle</string>
+    <string name="tum_islemler">Tüm İşlemler</string>
+    <string name="ayarlar">Ayarlar</string>
+    <string name="para_birimi">Para Birimi</string>
+    <string name="dil">Dil</string>
+    <string name="dil_secimi_ozelligi_yakinda">Dil seçimi özelliği yakında eklenecektir.</string>
+    <string name="kasa_islemleri">Kasa İşlemleri</string>
+    <string name="kasa_girisi">Kasa Girişi</string>
+    <string name="kasa_cikisi">Kasa Çıkışı</string>
+    <string name="yeni_islem_ekle">Yeni İşlem Ekle</string>
+    <string name="iptal">İptal</string>
+    <string name="baslik">Başlık</string>
+    <string name="tutar">Tutar</string>
+    <string name="kisi_istege_bagli">Kişi (İsteğe Bağlı)</string>
+    <string name="kategori">Kategori</string>
+    <string name="islem_turu">İşlem Türü</string>
+    <string name="durum">Durum</string>
+    <string name="odenmedi">Ödenmedi</string>
+    <string name="odendi">Ödendi</string>
+    <string name="kaydet">Kaydet</string>
+    <string name="aciklama_bos_olamaz">Açıklama boş olamaz</string>
+    <string name="gecerli_bir_tutar_girin">Geçerli bir tutar girin</string>
+    <string name="taksitli_islem_ekle">Taksitli İşlem Ekle</string>
+    <string name="toplam_tutar">Toplam Tutar</string>
+    <string name="taksit_sayisi">Taksit Sayısı</string>
+    <string name="ilk_taksit_tarihini_sec">İlk Taksit Tarihini Seç</string>
+    <string name="tarihi_degistir">Tarihi Değiştir</string>
+    <string name="tamam">Tamam</string>
+    <string name="taksitleri_olustur">Taksitleri Oluştur</string>
+    <string name="islem_detayi">İşlem Detayı</string>
+    <string name="geri">Geri</string>
+    <string name="guncelle">Güncelle</string>
+    <string name="sil">Sil</string>
+    <string name="islemi_sil">İşlemi Sil</string>
+    <string name="emin_misiniz">Bu işlemi kalıcı olarak silmek istediğinizden emin misiniz?</string>
+    <string name="evet">Evet</string>
+    <string name="hayir">Hayır</string>
+    <string name="yeni_kisi_adi">Yeni Kişi Adı</string>
+    <string name="raporlar">Raporlar</string>
+    <string name="aylik_ozet">Aylık Özet</string>
+    <string name="kategoriye_gore_harcamalar">Kategoriye Göre Harcamalar</string>
+    <string name="gelir">Gelir</string>
+    <string name="gider">Gider</string>
+    <string name="yaklasan_odemeler">Yaklaşan Ödemeler</string>
+    <string name="aylik_odemeler">Aylık Ödemeler</string>
+    <string name="vade_tarihi">Vade Tarihi:</string>
+    <string name="ay_secin">Ay Seçin</string>
+    <string name="son_gun">Son gün</string>
+    <string name="gecmis_vade">Vadesi geçmiş</string>
+    <string name="borc_ekle">Borç Ekle</string>
+    <string name="alacak_ekle">Alacak Ekle</string>
+    <string name="banka">Banka</string>
+    <string name="banka_islemleri">Banka İşlemleri</string>
+    <string name="banka_girisi">Banka Girişi</string>
+    <string name="banka_cikisi">Banka Çıkışı</string>
+    <string name="genel_hesap_ozeti">Genel Hesap Özeti</string>
+    <string name="ayrintisiz_pdf_indir">Ayrıntısız PDF İndir</string>
+    <string name="ayrintili_pdf_indir">Ayrıntılı PDF İndir</string>
+    <string name="net_varlik">Net Varlık</string>
+    <string name="filtrele">Filtrele</string>
+    <string name="odeme_yap">Ödeme Yap</string>
+    <string name="odeme_tutari">Ödeme Tutarı</string>
+    <string name="onayla">Onayla</string>
+    <string name="yaklasan_odeme_bulunmuyor">Yaklaşan ödeme bulunmuyor</string>
+    <string name="yaklasan_odeme_bulunmuyor_aciklama">Önümüzdeki 30 gün içinde vadesi gelen ödenmemiş işlem bulunmuyor.</string>
+    <string name="daralt">Daralt</string>
+    <string name="genislet">Genişlet</string>
+    <string name="gun">gün</string>
+    <string name="gec">GEÇ</string>
+    <string name="normal">Normal</string>
+    <string name="yaklasiyor">Yaklaşıyor</string>
+    <string name="acil">Acil</string>
+    <string name="gecikmis">Gecikmiş</string>
+    <string name="kalan_sure">Kalan Süre:</string>
+    <string name="bugun">Bugün</string>
+    <string name="gun_gecikmis">gün gecikmiş</string>
+    <string name="toplam_tutar_iki_nokta">Toplam Tutar:</string>
+    <string name="ode">Öde</string>
+    <string name="kismi_ode">Kısmi Öde</string>
+    <string name="duzenle">Düzenle</string>
+    <string name="islem_tarihi">İşlem Tarihi:</string>
+    <string name="taksitli_islem">Taksitli İşlem</string>
+    <string name="taksit_sayisi_ornek">Örn: 3, 6, 12</string>
+    <string name="pdf_indir">PDF İndir</string>
+    <string name="islem_tarihini_degistir">İşlem Tarihini Değiştir</string>
+    <string name="vade_tarihini_degistir">Vade Tarihini Değiştir</string>
+    <plurals name="kalan_gun">
+        <item quantity="one">%d gün kaldı</item>
+        <item quantity="other">%d gün kaldı</item>
+    </plurals>
+    
+    <!-- Calendar Settings -->
+    <string name="takvim_ayarlari">Takvim Ayarları</string>
+    <string name="takvim_entegrasyonu">Takvim Entegrasyonu</string>
+    <string name="otomatik_hatirlatici">Otomatik hatırlatıcı oluştur</string>
+    <string name="gizlilik_ayarlari">Gizlilik Ayarları</string>
+    <string name="gizlilik_modu">Gizlilik Modu</string>
+    <string name="gizlilik_modu_aciklama">Takvim etkinliklerinde hassas bilgileri gizle</string>
+    <string name="hatirlatici_ayarlari">Hatırlatıcı Ayarları</string>
+    <string name="varsayilan_hatirlatici_zamani">Varsayılan hatırlatıcı zamanı</string>
+    <string name="on_bes_dakika_once">15 dakika önce</string>
+    <string name="bir_saat_once">1 saat önce</string>
+    <string name="bir_gun_once">1 gün önce</string>
+    <string name="iki_gun_once">2 gün önce</string>
+    <string name="takip_ayarlari">Takip Ayarları</string>
+    <string name="ilk_takip_suresi">İlk takip süresi</string>
+    <string name="bir_gun">1 gün</string>
+    <string name="uc_gun">3 gün</string>
+    <string name="bir_hafta">1 hafta</string>
+    <string name="maksimum_takip_sayisi">Maksimum takip hatırlatıcı sayısı</string>
+    <string name="hatirlatici">hatırlatıcı</string>
+    <string name="izinler">İzinler</string>
+    <string name="takvim_erisimi">Takvim Erişimi</string>
+    <string name="verildi">Verildi</string>
+    <string name="verilmedi">Verilmedi</string>
+    <string name="izin_ver">İzin Ver</string>
+    <string name="ayarlar_guncelleniyor">Ayarlar güncelleniyor...</string>
+    <string name="kisi_sec">Kişi Seç</string>
+    <string name="tum_kisiler">Tüm Kişiler</string>
+    <string name="henuz_kisi_yok">Henüz kişi yok</string>
+    <string name="kisi_bulunamadi">Kişi bulunamadı</string>
+    <string name="bu_kisiyle_islem_yok">Bu kişiyle işlem yok</string>
+    <string name="tum_kisi_islemleri">Tüm Kişi İşlemleri</string>
+    <string name="kisiyle_islem_yok">Kişilerle işlem yok</string>
+
+    <!-- Calendar Event Strings -->
+    <string name="payment_reminder_title_private" translatable="false">Ödeme Hatırlatıcısı</string>
+    <string name="payment_reminder_title" translatable="false">Son Ödeme: %1$.2f</string>
+    <string name="payment_reminder_desc_private" translatable="false">Ödeme hatırlatıcısı - detaylar için BorçTakip uygulamasını kontrol edin</string>
+    <string name="payment_reminder_desc" translatable="false">Tutar: %1$.2f\nBaşlık: %2$s\nBorçTakip ile oluşturuldu</string>
+    <string name="payment_reminder_desc_with_contact" translatable="false">Tutar: %1$.2f\nBaşlık: %2$s\nKişi ID: %3$s\nBorçTakip ile oluşturuldu</string>
+    <string name="installment_payment_title_private" translatable="false">Taksit Ödemesi</string>
+    <string name="installment_payment_title" translatable="false">Taksit %1$d/%2$d - %3$.2f</string>
+    <string name="installment_payment_desc_private" translatable="false">Taksit ödeme hatırlatıcısı - detaylar için BorçTakip uygulamasını kontrol edin</string>
+    <string name="installment_payment_desc" translatable="false">Taksit %1$d / %2$d\nTutar: %3$.2f\nKalan Bakiye: %4$.2f\nDurum: %5$s\nBorçTakip ile oluşturuldu</string>
+    <string name="follow_up_reminder_title_private" translatable="false">Takip Hatırlatıcısı</string>
+    <string name="follow_up_reminder_title" translatable="false">Takip: Gecikmiş Ödeme %1$.2f</string>
+    <string name="follow_up_reminder_desc_private" translatable="false">Gecikmiş ödeme için takip hatırlatıcısı - detaylar için BorçTakip uygulamasını kontrol edin</string>
+    <string name="follow_up_reminder_desc" translatable="false">Gecikmiş Ödeme Takibi\nTutar: %1$.2f\nBaşlık: %2$s\nOrijinal Son Tarih: %3$s\nBorçTakip ile oluşturuldu</string>
+    <string name="follow_up_reminder_desc_with_contact" translatable="false">Gecikmiş Ödeme Takibi\nTutar: %1$.2f\nBaşlık: %2$s\nOrijinal Son Tarih: %3$s\nKişi ID: %4$s\nBorçTakip ile oluşturuldu</string>
+    <string name="status_paid" translatable="false">Ödendi</string>
+    <string name="status_pending" translatable="false">Beklemede</string>
+    <string name="created_via_borctakip" translatable="false">BorçTakip ile oluşturuldu</string>
+</resources>
