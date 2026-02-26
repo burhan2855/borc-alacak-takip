@@ -1,0 +1,15 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls",
+      "delegate_permission/common.get_login_creds"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.borcalacak.takip",
+      "sha256_cert_fingerprints": [
+        "A8:BA:16:84:CC:8B:8F:EB:48:B4:0A:D5:3B:F2:B3:A9:E6:BD:9F:17:24:35:5E:C5:98:42:D1:BD:3C:8E"
+      ]
+    }
+  }
+]
